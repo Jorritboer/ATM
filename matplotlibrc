@@ -42,9 +42,9 @@ legend.borderaxespad   : 0.0   # the border between the axes and legend edge
 # mathtext.fontset     : stix
 # font.family          : STIXGeneral
 font.family            : "Times New Roman"
-text.usetex            : True
+# text.usetex            : True
 # text.latex.preamble  : \usepackage{amsmath}\usepackage{libertine}
-text.latex.preamble    : \usepackage{times}
+# text.latex.preamble    : \usepackage{times}
 
 # removing white border
 savefig.bbox: tight
