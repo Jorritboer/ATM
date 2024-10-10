@@ -297,9 +297,7 @@ def get_agent(seed=None):
 
 # Automatically creates filename is not specified by user
 if file_name == None:
-    file_name = "AMData_{}_{}_{}.json".format(
-        algo_name, envFullName, str(int(float(args.m_cost) * 100)).zfill(3)
-    )
+    file_name = "AMData_{}_{}.json".format(algo_name, envFullName)
 
 # Set measurecost if not set by environment.
 if args.m_cost == -1:
