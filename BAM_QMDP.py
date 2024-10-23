@@ -413,10 +413,12 @@ Unbiased QTable: {}
 
                         # Update Q-table according to transition
                         if s1 != s2:
-                            thisQ += p2 * np.max(self.QTable[s2])
+                            thisQ += p2 * np.max(self.QTableUnbiased[s2])
                         elif s1 == s2:
                             thisQ += (
-                                p2 * self.selfLoopPenalty * np.max(self.QTable[s2])
+                                p2
+                                * self.selfLoopPenalty
+                                * np.max(self.QTableUnbiased[s2])
                             )  # We dis-incentivize self-loops by applying a small penalty to them
 
                 # Update Q-unbiased
