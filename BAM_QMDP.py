@@ -398,7 +398,6 @@ Unbiased QTable: {}
             if p1 < 1:
                 p1 = p1 * self.Q_noMeasureRate
             thisQ = 0
-            thisQUnbiased = 0
 
             if not (s1 == self.doneState):
                 if not isDone:
@@ -413,19 +412,12 @@ Unbiased QTable: {}
                         pt = p1 * p2
 
                         # Update Q-table according to transition
-                        if not isDone:
-                            if s1 != s2:
-                                thisQ += p2 * np.max(self.QTable[s2])
-                                thisQUnbiased += p2 * np.max(self.QTableUnbiased[s2])
-                            elif s1 == s2:
-                                thisQ += (
-                                    p2 * self.selfLoopPenalty * np.max(self.QTable[s2])
-                                )  # We dis-incentivize self-loops by applying a small penalty to them
-                                thisQUnbiased += (
-                                    p2
-                                    * self.selfLoopPenalty
-                                    * np.max(self.QTableUnbiased[s2])
-                                )
+                        if s1 != s2:
+                            thisQ += p2 * np.max(self.QTable[s2])
+                        elif s1 == s2:
+                            thisQ += (
+                                p2 * self.selfLoopPenalty * np.max(self.QTable[s2])
+                            )  # We dis-incentivize self-loops by applying a small penalty to them
 
                 # Update Q-unbiased
                 if self.dynamicLR:
@@ -433,14 +425,11 @@ Unbiased QTable: {}
                     pass
                 else:
                     thisLR = self.lr * p1
-                    totQUnbiased = (1 - thisLR) * self.QTableUnbiased[
-                        s1, action
-                    ] + thisLR * (reward + self.df * thisQ)
                     totQ = (1 - thisLR) * self.QTableUnbiased[s1, action] + thisLR * (
                         reward + self.df * thisQ
                     )
 
-                self.QTableUnbiased[s1, action] = totQUnbiased
+                self.QTableUnbiased[s1, action] = totQ
 
                 # Update QTries & R only if real action
                 if isReal and len(S2) == 1 and len(S1) == 1:
